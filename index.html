@@ -11,176 +11,508 @@
 
     <!-- <div class="credit"><a href="https://github.com/pchen66/panolens.js">Panolens.js</a> image panorama example. Image from <a href="http://adaptivesamples.com/tag/equirectangular/">Adaptive Samples</a></div> -->
     
-        <script src="js/three.min.js"></script>
-        <script src="js/panolens.min.js"></script>
-        <script>
-            var field = true;
+    <script src="js/three.min.js"></script>
+    <script src="js/panolens.min.js"></script>
+    <script>
+    var field = true;
 
-//---- Image ----//
-const pic1 =new PANOLENS.ImagePanorama('img/entree_sp.jpg');
-const pic2 =new PANOLENS.ImagePanorama('img/balcon.jpg');
-const pic3 =new PANOLENS.ImagePanorama('img/escalier.jpg');
-const pic4 =new PANOLENS.ImagePanorama('img/entree_cafet.jpg');
-const pic5 =new PANOLENS.ImagePanorama('img/entree_i8.jpg');
-const pic6 =new PANOLENS.ImagePanorama('img/i16.jpg');
+    //---- Image ----//
+    const pic1 =new PANOLENS.ImagePanorama('img/entree_sp.jpg');
+    const pic2 =new PANOLENS.ImagePanorama('img/balcon.jpg');
+    const pic3 =new PANOLENS.ImagePanorama('img/escalier.jpg');
+    const pic4 =new PANOLENS.ImagePanorama('img/entree_cafet.jpg');
+    const pic5 =new PANOLENS.ImagePanorama('img/entree_i8.jpg');
+    const pic6 =new PANOLENS.ImagePanorama('img/i16.jpg');
+    const pic7 =new PANOLENS.ImagePanorama('img/cafet_deck.jpg');
 
-const viewer = new PANOLENS.Viewer({ output : 'console'});
+    const viewer = new PANOLENS.Viewer({ output : 'console'});
 
-//---- Placement ----//
-const theta =Math.PI/10;
-const phi = Math.PI;
-var rayon =pic1.radius;
-console.log("Rayon : " + rayon);
+    //---- Placement ----//
+    const theta =Math.PI/10;
+    const phi = Math.PI;
+    var rayon =pic1.radius;
+    console.log("Rayon : " + rayon);
 
-//---- Position ----//
-var position = new THREE.Vector3(
-    rayon * Math.cos(theta) * Math.sin(phi),
-    rayon * Math.sin(theta),
-    rayon * Math.cos(theta) * Math.cos(phi)
-);
+    //---- Position ----//
+    var position = new THREE.Vector3(
+        rayon * Math.cos(theta) * Math.sin(phi),
+        rayon * Math.sin(theta),
+        rayon * Math.cos(theta) * Math.cos(phi)
+    );
 
-var taille = 300;
+    var taille = 300;
 
-//----- InfoSpot -----//
-//pic1 -- entree sp
-var infospot1_pic1 = new PANOLENS.Infospot( taille * position.length() / rayon, PANOLENS.DataImage.Info);
-infospot1_pic1.position.set(233.60, 58.39, -4985.46);
-infospot1_pic1.addEventListener( 'click', onFocus(pic1, pic2) );
-pic1.add( infospot1_pic1 );
+    //----- InfoSpot -----//
 
-// var infospot2_pic1 = new PANOLENS.Infospot( taille * position.length() / rayon, PANOLENS.DataImage.Info);
-// infospot2_pic1.position.copy(position);
+    //entree sp
+    //pic 1 vers pic 2 
+    var infospot1_pic1 = new PANOLENS.Infospot( taille * position.length() / rayon, PANOLENS.DataImage.Info);
+    infospot1_pic1.position.set(188.94, -289.29, -4978.73);
+    infospot1_pic1.addEventListener( 'click', onFocus1_1 );
+    pic1.add( infospot1_pic1 );
 
-// var infospot3_pic1 = new PANOLENS.Infospot( taille * position.length() / rayon, PANOLENS.DataImage.Info);
-// infospot3_pic1.position.copy(position);
+    //pic 1 vers autre pic du groupe 1 
+    var infospot2_pic1 = new PANOLENS.Infospot( taille * position.length() / rayon, PANOLENS.DataImage.Info);
+    infospot2_pic1.position.set(4976.14, -318.57, 216.42);
+    infospot2_pic1.addEventListener( 'click', onFocus1_2 );
+    pic1.add( infospot2_pic1 );
 
-//pic2 -- balcon
-var infospot1_pic2 = new PANOLENS.Infospot( taille * position.length() / rayon, PANOLENS.DataImage.Info);
-infospot1_pic2.position.set(15.16, -105.91, 4995.04);
-infospot1_pic2.addEventListener( 'click', onFocus(pic2, pic3) );
-pic2.add( infospot1_pic2 );
-
-var infospot2_pic2 = new PANOLENS.Infospot( taille * position.length() / rayon, PANOLENS.DataImage.Info);
-infospot2_pic2.position.set(-4988.48, 226.63, -49.86);
-infospot2_pic2.addEventListener( 'click', onFocus(pic2, pic1) );
-pic2.add( infospot2_pic2 );
-
-var infospot3_pic2 = new PANOLENS.Infospot( taille * position.length() / rayon, PANOLENS.DataImage.Info);
-infospot3_pic2.position.set(4988.40, -214.58, 60.50);
-infospot3_pic2.addEventListener( 'click', onFocus(pic2, pic5) );
-pic2.add( infospot3_pic2 );
-viewer.add( pic2 );
-viewer.render.sortObjects = true;
-
-// //pic3 -- escalier
-// var infospot1_pic3 = new PANOLENS.Infospot( taille * position.length() / rayon, PANOLENS.DataImage.Info);
-// infospot1_pic3.position.copy(position);
-
-// var infospot2_pic3 = new PANOLENS.Infospot( taille * position.length() / rayon, PANOLENS.DataImage.Info);
-// infospot2_pic3.position.copy(position);
-
-// var infospot3_pic3 = new PANOLENS.Infospot( taille * position.length() / rayon, PANOLENS.DataImage.Info);
-// infospot3_pic3.position.copy(position);
-
-// //pic4 -- entree cafet
-// var infospot1_pic4 = new PANOLENS.Infospot( taille * position.length() / rayon, PANOLENS.DataImage.Info);
-// infospot1_pic4.position.copy(position);
-
-// var infospot2_pic4 = new PANOLENS.Infospot( taille * position.length() / rayon, PANOLENS.DataImage.Info);
-// infospot2_pic4.position.copy(position);
-
-// //pic5 -- entree i8
-// var infospot1_pic5 = new PANOLENS.Infospot( taille * position.length() / rayon, PANOLENS.DataImage.Info);
-// infospot1_pic5.position.copy(position);
-
-// var infospot2_pic5 = new PANOLENS.Infospot( taille * position.length() / rayon, PANOLENS.DataImage.Info);
-// infospot2_pic5.position.copy(position);
-
-// var infospot3_pic5 = new PANOLENS.Infospot( taille * position.length() / rayon, PANOLENS.DataImage.Info);
-// infospot3_pic5.position.copy(position);
-
-// var infospot4_pic5 = new PANOLENS.Infospot( taille * position.length() / rayon, PANOLENS.DataImage.Info);
-// infospot4_pic5.position.copy(position);
-
-// var infospot5_pic5 = new PANOLENS.Infospot( taille * position.length() / rayon, PANOLENS.DataImage.Info);
-// infospot5_pic5.position.copy(position);
-
-// //pic6 -- i16
-// var infospot1_pic6 = new PANOLENS.Infospot( taille * position.length() / rayon, PANOLENS.DataImage.Info);
-// infospot1_pic5.position.copy(position);
-
-//pic6 -- i17 i18
-// var infospot2_pic6 = new PANOLENS.Infospot( taille * position.length() / rayon, PANOLENS.DataImage.Info);
-// infospot1_pic5.position.copy(position);
-
-// var infospot3_pic6 = new PANOLENS.Infospot( taille * position.length() / rayon, PANOLENS.DataImage.Info);
-
-//infospot sur entree sp
-// infospot1_pic1.addEventListener( 'click', onFocus(pic1, pic2) );
-// pic1.add( infospot1_pic1 );
-
-//infospot sur balcon
-// infospot1_pic2.addEventListener( 'click', onFocus(pic2, pic3) );
-// pic2.add( infospot1_pic2 );
-
-// infospot2_pic2.addEventListener( 'click', onFocus(pic2, pic1) );
-// pic2.add( infospot2_pic2 );
-
-// infospot3_pic2.addEventListener( 'click', onFocus(pic2, pic5) );
-// pic2.add( infospot3_pic2 );
-
-//infospot sur escalier
-// infospot1_pic3.addEventListener( 'click', onFocus(pic3, pic2) );
-// pic3.add( infospot1_pic3 );
-
-// infospot2_pic3.addEventListener( 'click', onFocus(pic3, pic4) );
-// pic3.add( infospot2_pic3 );
-
-// //infospot entree cafet 
-// infospot1_pic4.addEventListener( 'click', onFocus(pic4, pic3) );
-// pic4.add( infospot1_pic4 );
-
-// infospot2_pic4.addEventListener( 'click', onFocus(pic4, pic5) );
-// pic4.add( infospot2_pic4 );
-
-// //infospot entree i8
-// infospot1_pic5.addEventListener( 'click', onFocus(pic5, pic4) );
-// pic5.add( infospot1_pic5 );
-
-// infospot2_pic5.addEventListener( 'click', onFocus(pic5, pic6) );
-// pic5.add( infospot2_pic5 );
-
-// infospot3_pic5.addEventListener( 'click', onFocus(pic5, pic2) );
-// pic5.add( infospot3_pic5 );
-
-// //indospot sur i16
-// infospot1_pic6.addEventListener( 'click', onFocus(pic6, pic5) );
-// pic6.add( infospot1_pic6 );
-
-// viewer.add( pic1 );
-// viewer.render.sortObjects = true;
+    //pic 1 vers pic parking prof du groupe 1 
+    var infospot3_pic1 = new PANOLENS.Infospot( taille * position.length() / rayon, PANOLENS.DataImage.Info);
+    infospot3_pic1.position.set(-131.34, -181.00, 4986.01);
+    infospot3_pic1.addEventListener( 'click', onFocus1_3 );
+    pic1.add( infospot3_pic1 );
 
 
+    //balcon 
+    //pic 2 vers pic 5
+    var infospot1_pic2 = new PANOLENS.Infospot( taille * position.length() / rayon, PANOLENS.DataImage.Info);
+    infospot1_pic2.position.set(15.16, -105.91, 4995.04);
+    infospot1_pic2.addEventListener( 'click', onFocus2_1 );
+    pic2.add( infospot1_pic2 );
+
+    //pic 2 vers pic 1
+    var infospot2_pic2 = new PANOLENS.Infospot( taille * position.length() / rayon, PANOLENS.DataImage.Info);
+    infospot2_pic2.position.set(-4988.48, 226.63, -49.86);
+    infospot2_pic2.addEventListener( 'click', onFocus2_2 );
+    pic2.add( infospot2_pic2 );
+
+    //pic 2 vers 3 
+    var infospot3_pic2 = new PANOLENS.Infospot( taille * position.length() / rayon, PANOLENS.DataImage.Info);
+    infospot3_pic2.position.set(4988.40, -214.58, 60.50);
+    infospot3_pic2.addEventListener( 'click', onFocus2_3 );
+    pic2.add( infospot3_pic2 );
 
 
-//fonction d'appel pour 
-function onFocus(info1, info2) {
+    // escalier
+    //pic 3 vers pic 2
+    var infospot1_pic3 = new PANOLENS.Infospot( taille * position.length() / rayon, PANOLENS.DataImage.Info);
+    infospot1_pic3.position.set(-4992.00, -152.27, -38.58);
+    infospot1_pic3.addEventListener( 'click', onFocus3_1 );
+    pic3.add( infospot1_pic3 );
 
-    console.log("Clic sur Infospot");
-    if(field) {
-      viewer.remove(info1);
-      viewer.add(info2);
-      viewer.setPanorama(info2);
-    } else {
-      viewer.remove(info2);
-      viewer.add(info1);
-      viewer.setPanorama(info1);
+    //pic 3 vers pic 7
+    var infospot2_pic3 = new PANOLENS.Infospot( taille * position.length() / rayon, PANOLENS.DataImage.Info);
+    infospot2_pic3.position.set(220.89, -275.66, 4977.59);
+    infospot2_pic3.addEventListener( 'click', onFocus3_2 );
+    pic3.add( infospot2_pic3 );
+
+    //pic 3 vers pic parking groupe 3
+    var infospot3_pic3 = new PANOLENS.Infospot( taille * position.length() / rayon, PANOLENS.DataImage.Info);
+    infospot3_pic3.position.set(4909.80, -825.29, -382.86);
+    infospot3_pic3.addEventListener( 'click', onFocus3_3 );
+    pic3.add( infospot3_pic3 );
+
+
+    //cafet deck 
+    // pic 7 vers pic 3 
+    var infospot1_pic7 = new PANOLENS.Infospot( taille * position.length() / rayon, PANOLENS.DataImage.Info);
+    infospot1_pic7.position.set(79.71, -520.43, -4965.24);
+    infospot1_pic7.addEventListener( 'click', onFocus7_1 );
+    pic7.add( infospot1_pic7 );
+
+    // pic 7 vers deck 
+    var infospot2_pic7 = new PANOLENS.Infospot( taille * position.length() / rayon, PANOLENS.DataImage.Info);
+    infospot2_pic7.position.set(4877.92, -968.02, 449.36);
+    infospot2_pic7.addEventListener( 'click', onFocus7_2 );
+    pic7.add( infospot2_pic7 );
+
+    //pic 7 vers entre cafet 
+    var infospot3_pic7 = new PANOLENS.Infospot( taille * position.length() / rayon, PANOLENS.DataImage.Info);
+    infospot3_pic7.position.set(-4921.04, -798.53, -269.88);
+    infospot3_pic7.addEventListener( 'click', onFocus7_3 );
+    pic7.add( infospot3_pic7 );
+
+
+    // entree cafet
+    // pic 4 vers pic 7 
+    var infospot1_pic4 = new PANOLENS.Infospot( taille * position.length() / rayon, PANOLENS.DataImage.Info);
+    infospot1_pic4.position.set(4780.79, -1403.85, 273.29);
+    infospot1_pic4.addEventListener( 'click', onFocus4_1 );
+    pic4.add( infospot1_pic4 );
+    
+    //pic 4 vers pic 5
+    var infospot2_pic4 = new PANOLENS.Infospot( taille * position.length() / rayon, PANOLENS.DataImage.Info);
+    infospot2_pic4.position.set(-4995.23, 51.47, -52.39);
+    infospot2_pic4.addEventListener( 'click', onFocus4_2 );
+    pic4.add( infospot2_pic4 );
+
+
+    // entree i8
+    // pic 5 vers pic 4 (entree cafet)
+    var infospot1_pic5 = new PANOLENS.Infospot( taille * position.length() / rayon, PANOLENS.DataImage.Info);
+    infospot1_pic5.position.set(4970.37, -396.55, 261.63);
+    infospot1_pic5.addEventListener( 'click', onFocus5_1 );
+    pic5.add( infospot1_pic5 );
+
+    //pic 5 vers pic 6 (i16)
+    var infospot2_pic5 = new PANOLENS.Infospot( taille * position.length() / rayon, PANOLENS.DataImage.Info);
+    infospot2_pic5.position.set(3613.55, -486.78, 3410.27);
+    infospot2_pic5.addEventListener( 'click', onFocus5_2 );
+    pic5.add( infospot2_pic5 );
+
+    //pic 5 vers pic 8 (i17 et i18)
+    var infospot3_pic5 = new PANOLENS.Infospot( taille * position.length() / rayon, PANOLENS.DataImage.Info);
+    infospot3_pic5.position.set(4671.13, -343.96, 1726.64);
+    infospot3_pic5.addEventListener( 'click', onFocus5_3 );
+    pic5.add( infospot3_pic5 );
+
+    //pic 5 vers pic 2 (balcon)
+    var infospot4_pic5 = new PANOLENS.Infospot( taille * position.length() / rayon, PANOLENS.DataImage.Info);
+    infospot4_pic5.position.set(542.31, -902.19, -4883.12);
+    infospot4_pic5.addEventListener( 'click', onFocus5_4);
+    pic5.add( infospot4_pic5 );
+
+    //pic 5 vers pic 9 (entree i4)
+    var infospot5_pic5 = new PANOLENS.Infospot( taille * position.length() / rayon, PANOLENS.DataImage.Info);
+    infospot5_pic5.position.set(-4966.94, -439.01, -231.15);
+    infospot5_pic5.addEventListener( 'click', onFocus5_5);
+    pic5.add( infospot5_pic5 );
+
+    // //pic6 -- i16
+    // var infospot1_pic6 = new PANOLENS.Infospot( taille * position.length() / rayon, PANOLENS.DataImage.Info);
+    // infospot1_pic5.position.copy(position);
+
+    //pic6 -- i17 i18
+    // var infospot2_pic6 = new PANOLENS.Infospot( taille * position.length() / rayon, PANOLENS.DataImage.Info);
+    // infospot1_pic5.position.copy(position);
+
+    // var infospot3_pic6 = new PANOLENS.Infospot( taille * position.length() / rayon, PANOLENS.DataImage.Info);
+
+    //infospot sur entree sp
+    // infospot1_pic1.addEventListener( 'click', onFocus(pic1, pic2) );
+    // pic1.add( infospot1_pic1 );
+
+    //infospot sur balcon
+    // infospot1_pic2.addEventListener( 'click', onFocus(pic2, pic3) );
+    // pic2.add( infospot1_pic2 );
+
+    // infospot2_pic2.addEventListener( 'click', onFocus(pic2, pic1) );
+    // pic2.add( infospot2_pic2 );
+
+    // infospot3_pic2.addEventListener( 'click', onFocus(pic2, pic5) );
+    // pic2.add( infospot3_pic2 );
+
+    //infospot sur escalier
+    // infospot1_pic3.addEventListener( 'click', onFocus(pic3, pic2) );
+    // pic3.add( infospot1_pic3 );
+
+    // infospot2_pic3.addEventListener( 'click', onFocus(pic3, pic4) );
+    // pic3.add( infospot2_pic3 );
+
+    // //infospot entree cafet 
+    // infospot1_pic4.addEventListener( 'click', onFocus(pic4, pic3) );
+    // pic4.add( infospot1_pic4 );
+
+    // infospot2_pic4.addEventListener( 'click', onFocus(pic4, pic5) );
+    // pic4.add( infospot2_pic4 );
+
+    // //infospot entree i8
+    // infospot1_pic5.addEventListener( 'click', onFocus(pic5, pic4) );
+    // pic5.add( infospot1_pic5 );
+
+    // infospot2_pic5.addEventListener( 'click', onFocus(pic5, pic6) );
+    // pic5.add( infospot2_pic5 );
+
+    // infospot3_pic5.addEventListener( 'click', onFocus(pic5, pic2) );
+    // pic5.add( infospot3_pic5 );
+
+    // //indospot sur i16
+    // infospot1_pic6.addEventListener( 'click', onFocus(pic6, pic5) );
+    // pic6.add( infospot1_pic6 );
+
+    viewer.add( pic1 );
+    viewer.render.sortObjects = true;
+
+
+
+
+    //fonction d'appel pour 
+    function onFocus1_1 () {
+      console.log("Clic sur Infospot1_1");
+      if(field) {
+        viewer.remove(pic1);
+        viewer.add(pic2);
+        viewer.setPanorama(pic2);
+      } else {
+        viewer.remove(pic2);
+        viewer.add(pic1);
+        viewer.setPanorama(pic1);
+      }
+
+      field = ! field;
     }
 
-  field = ! field;
+    function onFocus1_2 () {
+      // console.log("Clic sur Infospot1_2");
+      // if(field) {
+      //   viewer.remove(pic1);
+      //   viewer.add(pic2);
+      //   viewer.setPanorama(pic2);
+      // } else {
+      //   viewer.remove(pic2);
+      //   viewer.add(pic1);
+      //   viewer.setPanorama(pic1);
+      // }
 
-}
-        </script>
+      // field = ! field;
+    }
+
+    function onFocus1_3 () {
+      console.log("Clic sur Infospot1_3");
+      // if(field) {
+      //   viewer.remove(pic1);
+      //   viewer.add(pic2);
+      //   viewer.setPanorama(pic2);
+      // } else {
+      //   viewer.remove(pic2);
+      //   viewer.add(pic1);
+      //   viewer.setPanorama(pic1);
+      // }
+
+      //field = ! field;
+    }
+
+    function onFocus2_1 () {
+      console.log("Clic sur Infospot2_1");
+      if(field) {
+        viewer.remove(pic5);
+        viewer.add(pic2);
+        viewer.setPanorama(pic2);
+      } else {
+        viewer.remove(pic2);
+        viewer.add(pic5);
+        viewer.setPanorama(pic5);
+      }
+
+      field = ! field;
+    }
+
+    function onFocus2_2 () {
+      console.log("Clic sur Infospot2_2");
+      if(field) {
+        viewer.remove(pic1);
+        viewer.add(pic2);
+        viewer.setPanorama(pic2);
+      } else {
+        viewer.remove(pic2);
+        viewer.add(pic1);
+        viewer.setPanorama(pic1);
+      }
+
+      field = ! field;
+    }
+
+    function onFocus2_3 () {
+      console.log("Clic sur Infospot2_3");
+      if(field) {
+        viewer.remove(pic3);
+        viewer.add(pic2);
+        viewer.setPanorama(pic2);
+      } else {
+        viewer.remove(pic2);
+        viewer.add(pic3);
+        viewer.setPanorama(pic3);
+      }
+
+      field = ! field;
+    }
+
+    function onFocus3_1 () {
+      console.log("Clic sur Infospot3_1");
+      if(field) {
+        viewer.remove(pic2);
+        viewer.add(pic3);
+        viewer.setPanorama(pic3);
+      } else {
+        viewer.remove(pic3);
+        viewer.add(pic2);
+        viewer.setPanorama(pic2);
+      }
+
+      field = ! field;
+    }
+
+    function onFocus3_2 () {
+      console.log("Clic sur Infospot3_2");
+      if(field) {
+        viewer.remove(pic3);
+        viewer.add(pic7);
+        viewer.setPanorama(pic7);
+      } else {
+        viewer.remove(pic7);
+        viewer.add(pic3);
+        viewer.setPanorama(pic3);
+      }
+
+      field = ! field;
+    }
+
+    function onFocus3_3 () {
+      console.log("Clic sur Infospot3_3");
+      // if(field) {
+      //   viewer.remove(pic3);
+      //   viewer.add(pic2);
+      //   viewer.setPanorama(pic2);
+      // } else {
+      //   viewer.remove(pic2);
+      //   viewer.add(pic3);
+      //   viewer.setPanorama(pic3);
+      // }
+
+      // field = ! field;
+    }
+
+    function onFocus7_1 () {
+      console.log("Clic sur Infospot7_1");
+      if(field) {
+        viewer.remove(pic7);
+        viewer.add(pic3);
+        viewer.setPanorama(pic3);
+      } else {
+        viewer.remove(pic3);
+        viewer.add(pic7);
+        viewer.setPanorama(pic7);
+      }
+
+      field = ! field;
+    }
+
+    function onFocus7_2 () {
+      console.log("Clic sur Infospot7_2");
+      // if(field) {
+      //   viewer.remove(pic3);
+      //   viewer.add(pic7);
+      //   viewer.setPanorama(pic7);
+      // } else {
+      //   viewer.remove(pic7);
+      //   viewer.add(pic3);
+      //   viewer.setPanorama(pic3);
+      // }
+
+      // field = ! field;
+    }
+
+    function onFocus7_3 () {
+      console.log("Clic sur Infospot7_3");
+      if(field) {
+        viewer.remove(pic4);
+        viewer.add(pic7);
+        viewer.setPanorama(pic7);
+      } else {
+        viewer.remove(pic7);
+        viewer.add(pic4);
+        viewer.setPanorama(pic4);
+      }
+
+      field = ! field;
+    }
+
+    function onFocus4_1 () {
+      console.log("Clic sur Infospot4_1");
+      if(field) {
+        viewer.remove(pic7);
+        viewer.add(pic4);
+        viewer.setPanorama(pic4);
+      } else {
+        viewer.remove(pic4);
+        viewer.add(pic7);
+        viewer.setPanorama(pic7);
+      }
+
+      field = ! field;
+    }
+
+    function onFocus4_2 () {
+      console.log("Clic sur Infospot4_2");
+      if(field) {
+        viewer.remove(pic5);
+        viewer.add(pic4);
+        viewer.setPanorama(pic4);
+      } else {
+        viewer.remove(pic4);
+        viewer.add(pic5);
+        viewer.setPanorama(pic5);
+      }
+
+      field = ! field;
+    }
+
+    function onFocus5_1 () {
+      console.log("Clic sur Infospot5_1");
+      if(field) {
+        viewer.remove(pic5);
+        viewer.add(pic4);
+        viewer.setPanorama(pic4);
+      } else {
+        viewer.remove(pic4);
+        viewer.add(pic5);
+        viewer.setPanorama(pic5);
+      }
+
+      field = ! field;
+    }
+
+    function onFocus5_2 () {
+      console.log("Clic sur Infospot5_2");
+      if(field) {
+        viewer.remove(pic5);
+        viewer.add(pic6);
+        viewer.setPanorama(pic6);
+      } else {
+        viewer.remove(pic6);
+        viewer.add(pic5);
+        viewer.setPanorama(pic5);
+      }
+
+      field = ! field;
+    }
+
+    function onFocus5_3 () {
+      console.log("Clic sur Infospot5_3");
+      // if(field) {
+      //   viewer.remove(pic);
+      //   viewer.add(pic5);
+      //   viewer.setPanorama(pic5);
+      // } else {
+      //   viewer.remove(pic5);
+      //   viewer.add(pic4);
+      //   viewer.setPanorama(pic4);
+      // }
+
+      // field = ! field;
+    }
+
+    function onFocus5_4 () {
+      console.log("Clic sur Infospot5_4");
+      if(field) {
+        viewer.remove(pic2);
+        viewer.add(pic5);
+        viewer.setPanorama(pic5);
+      } else {
+        viewer.remove(pic5);
+        viewer.add(pic2);
+        viewer.setPanorama(pic2);
+      }
+
+      field = ! field;
+    }
+
+    function onFocus5_5 () {
+      // console.log("Clic sur Infospot5_5");
+      // if(field) {
+      //   viewer.remove(pic5);
+      //   viewer.add(pic2);
+      //   viewer.setPanorama(pic2);
+      // } else {
+      //   viewer.remove(pic2);
+      //   viewer.add(pic5);
+      //   viewer.setPanorama(pic5);
+      // }
+
+      // field = ! field;
+    }
+    </script>²
 
     </body>
 </html>
