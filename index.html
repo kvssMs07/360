@@ -25,6 +25,23 @@
     const pic6=new PANOLENS.ImagePanorama('img/ext_i4.jpg');
     const viewer = new PANOLENS.Viewer({ output : 'console'});
 
+    //position
+    var lookAtPositions = 
+    [
+        {
+            "entree": pic1, "sortie": pic2, "position": new THREE.Vector3(-4979.00, -66.47, 350.78)
+        },
+        {
+            "entree": pic2, "sortie": pic1, "position":new THREE.Vector3(-712.79, 446.93, -4920.37)
+        },
+        {
+            "entree": pic2, "sortie": pic3, "position": new THREE.Vector3(182.48, -391.38, 4975.06)
+        },
+        {
+            "entree": pic3, "sortie": pic2, "position": new THREE.Vector3(4966.56, -543.82, -1.82)
+        }
+    ];
+
     //----- InfoSpot -----//
 
     //------------- balcon i8 -------------//
@@ -80,17 +97,29 @@
     //-- i16 -> exterieur i18 --//
     onFocus(pic5, pic4, 891.83, 297.42, -4902.32);
 
-    function onFocus(pic1, pic2, pos1, pos2, pos3) {
+    function onFocus(entree, sortie, pos1, pos2, pos3) {
 
-    var infospot = new PANOLENS.Infospot(300, PANOLENS.DataImage.Info);
-    infospot.position.set(pos1, pos2, pos3);
-    infospot.addEventListener("click", () => {
-        viewer.remove(pic1);
-        viewer.add(pic2);
-        viewer.setPanorama(pic2);
-    });
-    pic1.add(infospot);
-    viewer.add(pic1);
+        var infospot = new PANOLENS.Infospot(300, PANOLENS.DataImage.Info);
+        infospot.position.set(pos1, pos2, pos3);
+        infospot.addEventListener("click", () => {
+            viewer.remove(entree);
+            viewer.add(sortie);
+            viewer.setPanorama(sortie);
+
+        });
+        entree.add(infospot);
+        viewer.add(entree);
+
+        for (let i = 0; i < lookAtPositions.length; i++)
+        {
+            if (entree == lookAtPositions[i].entree && sortie == lookAtPositions[i].sortie)
+            {
+                sortie.addEventListener( 'enter-fade-start', function(){
+                viewer.tweenControlCenter( lookAtPositions[i].position, 0 );
+                } );
+            }
+        }
+        
     }
 
     </script>
