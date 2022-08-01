@@ -82,7 +82,7 @@
 
     function onFocus(pic1, pic2, pos1, pos2, pos3) {
 
-    var infospot = new PANOLENS.Infospot(300, PANOLENS.DataImage.Info);
+    var infospot = new PANOLENS.Infospot(300, PANOLENS.DataImage.Arrow);
     infospot.position.set(pos1, pos2, pos3);
     infospot.addEventListener("click", () => {
         viewer.remove(pic1);
