@@ -99,6 +99,7 @@
 
     function onFocus(entree, sortie, pos1, pos2, pos3) {
 
+<<<<<<< HEAD
         var infospot = new PANOLENS.Infospot(300, PANOLENS.DataImage.Info);
         infospot.position.set(pos1, pos2, pos3);
         infospot.addEventListener("click", () => {
@@ -120,6 +121,17 @@
             }
         }
         
+=======
+    var infospot = new PANOLENS.Infospot(300, PANOLENS.DataImage.Arrow);
+    infospot.position.set(pos1, pos2, pos3);
+    infospot.addEventListener("click", () => {
+        viewer.remove(pic1);
+        viewer.add(pic2);
+        viewer.setPanorama(pic2);
+    });
+    pic1.add(infospot);
+    viewer.add(pic1);
+>>>>>>> 3506fc40e5dc5eed79f3784735a94bdfeec94f61
     }
 
     </script>
