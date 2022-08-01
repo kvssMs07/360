@@ -28,20 +28,38 @@
     //position
     var lookAtPositions = 
     [
-        {
-            "entree": pic1, "sortie": pic2, "position": new THREE.Vector3(-4979.00, -66.47, 350.78)
-        },
-        {
-            "entree": pic2, "sortie": pic1, "position":new THREE.Vector3(-712.79, 446.93, -4920.37)
-        },
-        {
-            "entree": pic2, "sortie": pic3, "position": new THREE.Vector3(182.48, -391.38, 4975.06)
-        },
-        {
-            "entree": pic3, "sortie": pic2, "position": new THREE.Vector3(4966.56, -543.82, -1.82)
-        }
+        //balcon i8 vcers interieur i8 
+        new THREE.Vector3(4983.26, -301.10, 93.70),
+        //escalier vers balcon i8 
+        new THREE.Vector3(-4964.73, 219.62, 508.38),
+        //entre sp gauche vers balcon i8 
+        new THREE.Vector3(4972.65, -173.25, -392.03),
+        //interieur i8 vers balcon i8
+        new THREE.Vector3(-712.79, 446.93, -4920.37),
+        //interieur i8 vers entre i8 
+        new THREE.Vector3(182.48, -391.38, 4975.06),
+        //entree i8 vers interieur i8
+        new THREE.Vector3(-4977.08, 188.46, 296.09),
+        //entre i8 vers exterieur i18
+        new THREE.Vector3(4984.79, -281.35, 6.99),
+        //exterieur i18 vers entree i8
+        new THREE.Vector3(-4991.23, 81.01, 106.54),
+        //exterieur i18 vers cafet 
+        new THREE.Vector3(4982.97, -272.17, 120.88),
+        //ecterieur i18 vers i16
+        new THREE.Vector3(-1083.80, 201.74, 4870.69),
+        //i16 vers exterieur i18
+        new THREE.Vector3(606.80, -145.13, -4253.98),
+        //entree i8 vers entree i4
+        new THREE.Vector3(4992.24, 68.97, 96.39),
+        //entree i4 vers entree i8
+        new THREE.Vector3(4983.63, -234.75, 136.40),
+        //entree i4 vers entree droit sp
+        new THREE.Vector3(4983.63, -234.75, 136.40),
+        //entree i4 vers badminton
+        new THREE.Vector3(4983.63, -234.75, 136.40)
     ];
-
+   
     //----- InfoSpot -----//
 
     //------------- balcon i8 -------------//
@@ -97,9 +115,11 @@
     //-- i16 -> exterieur i18 --//
     onFocus(pic5, pic4, 891.83, 297.42, -4902.32);
 
+
     function onFocus(entree, sortie, pos1, pos2, pos3) {
 
-<<<<<<< HEAD
+        var p = new THREE.Vector3(pos1, pos2, pos3);
+
         var infospot = new PANOLENS.Infospot(300, PANOLENS.DataImage.Info);
         infospot.position.set(pos1, pos2, pos3);
         infospot.addEventListener("click", () => {
@@ -107,31 +127,15 @@
             viewer.add(sortie);
             viewer.setPanorama(sortie);
 
+            viewer.tweenControlCenter( p, 0 );
+            console.log(p);
+
         });
         entree.add(infospot);
         viewer.add(entree);
 
-        for (let i = 0; i < lookAtPositions.length; i++)
-        {
-            if (entree == lookAtPositions[i].entree && sortie == lookAtPositions[i].sortie)
-            {
-                sortie.addEventListener( 'enter-fade-start', function(){
-                viewer.tweenControlCenter( lookAtPositions[i].position, 0 );
-                } );
-            }
-        }
         
-=======
-    var infospot = new PANOLENS.Infospot(300, PANOLENS.DataImage.Arrow);
-    infospot.position.set(pos1, pos2, pos3);
-    infospot.addEventListener("click", () => {
-        viewer.remove(pic1);
-        viewer.add(pic2);
-        viewer.setPanorama(pic2);
-    });
-    pic1.add(infospot);
-    viewer.add(pic1);
->>>>>>> 3506fc40e5dc5eed79f3784735a94bdfeec94f61
+        
     }
 
     </script>
